@@ -10,20 +10,14 @@ class DocScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text('Documentation', style: TextStyle(fontSize: 18),),
-            TextButton(
-              child: const Text("Simulate", style: TextStyle(fontSize: 18),),
-              onPressed: () {
-                AutoRouter.of(context).push(const ConfigRoute());
-              }
-            ),
-          ],
-        ),
+      body: const Center(
+        child: Text('Documentation soon :)', style: TextStyle(fontSize: 18),),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.check),
+        onPressed: () => context.router.push(const ConfigRoute())
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
