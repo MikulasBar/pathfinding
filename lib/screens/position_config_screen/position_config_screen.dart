@@ -1,8 +1,12 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:path_finding/algorithm.dart';
+import 'package:path_finding/app/router.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:path_finding/app/router.gr.dart';
 import 'package:path_finding/screens/position_config_screen/widgets/changeable_grid.dart';
 import 'package:path_finding/position.dart';
+import 'package:path_finding/screens/position_config_screen/widgets/stage_buttons.dart';
 
 enum PickingStage {
   start,
@@ -101,19 +105,26 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(backgroundColor: Colors.red),
-      body: Center(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return InteractiveViewer(
-              boundaryMargin: const EdgeInsets.all(70),
-              clipBehavior: Clip.none,
-              child: Center(
-                child: ChangeableGrid(nodes: nodes, onNodeClick: handleNodeClick),
-              )
-            );
-          },
-        ),
+      body: Stack(
+        children: [
+          Center(
+            child: ChangeableGrid(nodes: nodes, onNodeClick: handleNodeClick)
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: StageButtons(isSelected: isSelected, switchStage: switchStage)
+            ),
+          ),
+        ],
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.check),
+        onPressed: () => context.router.push(const StatsRoute()),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

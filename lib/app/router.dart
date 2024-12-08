@@ -1,9 +1,5 @@
 
-
-
 import 'package:auto_route/auto_route.dart';
-import 'package:path_finding/screens/config_screen/config_screen.dart';
-
 import 'router.gr.dart';
 
 @AutoRouterConfig(replaceInRouteName: 'Screen,Route')

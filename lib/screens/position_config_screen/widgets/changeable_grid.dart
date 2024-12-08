@@ -37,19 +37,30 @@ class ChangeableGrid extends StatelessWidget {
     final double gridWidth = nodes.length * nodeSize;
     final double gridHeight = nodes[0].length * nodeSize;
 
-    return SizedBox(
-      width: gridWidth,
-      height: gridHeight,
-      child: Listener(
-        onPointerSignal: (event) {},
-        child: GridView.count(
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: nodes.length,
-          mainAxisSpacing: 2.0,
-          crossAxisSpacing: 2.0,
-          children: buildBlocks(),
-        ),
-      ),
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return InteractiveViewer(
+          boundaryMargin: const EdgeInsets.all(70),
+          clipBehavior: Clip.none,
+          child: Center(
+            child: SizedBox(
+              width: gridWidth,
+              height: gridHeight,
+              child: Listener(
+                onPointerSignal: (event) {},
+                child: GridView.count(
+                  physics: const NeverScrollableScrollPhysics(),
+                  crossAxisCount: nodes.length,
+                  mainAxisSpacing: 2.0,
+                  crossAxisSpacing: 2.0,
+                  children: buildBlocks(),
+                ),
+              ),
+            ),
+          )
+        );
+      },
     );
   }
 }
