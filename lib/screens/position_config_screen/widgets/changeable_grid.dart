@@ -1,24 +1,35 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:path_finding/algorithm.dart';
+import 'package:path_finding/position.dart';
 
-class Grid extends StatelessWidget {
+
+class ChangeableGrid extends StatelessWidget {
   static const nodeSize = 20.0;
-  List<List<Node>> nodes;
+  final List<List<Node>> nodes;
+  final Function(Position) onNodeClick;
   
-  Grid({
+  const ChangeableGrid({
     super.key,
     required this.nodes,
+    required this.onNodeClick,
   });
   
-  List<Container> getBlocks() {
-    return nodes.expand((l) => l).map((n) {
-      return Container(
-        width: nodeSize,
-        height: nodeSize,
-        color: n.toColor(),
-      );
-    }).toList();
+  List<Widget> buildBlocks() {
+    List<Widget> blocks = [];
+    for (int i = 0; i < nodes.length; i++) {
+      for (int j = 0; j < nodes[i].length; j++) {
+        blocks.add(GestureDetector(
+          onTap: () => onNodeClick(Position(i, j)),
+          child: Container(
+            width: nodeSize,
+            height: nodeSize,
+            color: nodes[i][j].toColor(),
+          ),
+        ));
+      }
+    }
+
+    return blocks;
   }
 
   @override
@@ -36,7 +47,7 @@ class Grid extends StatelessWidget {
           crossAxisCount: nodes.length,
           mainAxisSpacing: 2.0,
           crossAxisSpacing: 2.0,
-          children: getBlocks(),
+          children: buildBlocks(),
         ),
       ),
     );

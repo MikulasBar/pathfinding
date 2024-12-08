@@ -1,8 +1,10 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:path_finding/position.dart';
 
 enum Algorithm {
+  // ignore: constant_identifier_names
   BFS;
 
   @override
@@ -41,32 +43,21 @@ abstract class PathFindingState {
 }
 
 enum Node {
-  Idle,
-  Obstacle,
-  Start,
-  Target,
-  Opened,
-  Closed;
+  idle,
+  obstacle,
+  start,
+  target,
+  opened,
+  closed;
 
   Color toColor() {
     return switch (this) {
-      Idle => Colors.white,
-      Obstacle => Colors.black,
-      Start => Colors.orange,
-      Target => Colors.blue[600]!,
-      Opened => Colors.green,
-      Closed => Colors.red,
+      idle => Colors.white,
+      obstacle => Colors.black,
+      start => Colors.orange,
+      target => Colors.blue[600]!,
+      opened => Colors.green,
+      closed => Colors.red,
     };
   }
 }
-
-class Position {
-  int x;
-  int y;
-
-  Position({
-    required this.x,
-    required this.y,
-  });
-}
-

@@ -1,7 +1,14 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:path_finding/algorithm.dart';
-import 'package:path_finding/grid.dart';
+import 'package:path_finding/screens/position_config_screen/widgets/changeable_grid.dart';
+import 'package:path_finding/position.dart';
+
+enum PickingStage {
+  start,
+  target,
+  obstacles;
+}
 
 @RoutePage()
 class PositionConfigScreen extends StatefulWidget {
@@ -24,12 +31,62 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
   late List<List<Node>> nodes;
   Position? start;
   Position? target;
-
+  PickingStage stage = PickingStage.start;
+  List<bool> isSelected = [true, false, false];
 
   @override
   void initState() {
     super.initState();
-    nodes = List.filled(widget.width, List.filled(widget.height, Node.Idle));
+    nodes = List.generate(widget.width, (i) => List.generate(widget.height, (j) => Node.idle));
+  }
+
+  void switchStage(int index) {
+    setState(() {
+      for (int i = 0; i < isSelected.length; i++) {
+        isSelected[i] = i == index;
+      }
+      stage = PickingStage.values[index];
+    });
+  }
+
+  void handleNodeClick(Position pos) {
+    setState(() {
+      switch (stage) {
+        case PickingStage.start: setStart(pos); break;
+        case PickingStage.target: setTarget(pos); break;
+        case PickingStage.obstacles: setObstacle(pos); break;
+        default: print("Unreachable");
+      }
+    });
+  }
+
+  void setStart(Position pos) {
+    start?.setIn(nodes, Node.idle);
+    start = pos;
+    start!.setIn(nodes, Node.start);
+  }
+
+  void setTarget(Position pos) {
+    target?.setIn(nodes, Node.idle);
+    target = pos;
+    target!.setIn(nodes, Node.target);
+  }
+
+  void setObstacle(Position pos) {
+    switch (pos.getFrom(nodes)) {
+      case Node.obstacle:
+        pos.setIn(nodes, Node.idle);
+        return;
+      case Node.start:
+        start = null;
+        break;
+      case Node.target:
+        target = null;
+        break;
+      default: print("Unreachable");
+    }
+
+    pos.setIn(nodes, Node.obstacle);
   }
   
   @override
@@ -41,7 +98,7 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
         child: InteractiveViewer(
           boundaryMargin: const EdgeInsets.all(70),
           clipBehavior: Clip.none,
-          child: Grid(nodes: nodes)
+          child: ChangeableGrid(nodes: nodes, onNodeClick: handleNodeClick)
         ),
       ),
     );
