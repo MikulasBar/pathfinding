@@ -37,7 +37,8 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
   @override
   void initState() {
     super.initState();
-    nodes = List.generate(widget.width, (i) => List.generate(widget.height, (j) => Node.idle));
+    nodes = List.generate(
+        widget.width, (i) => List.generate(widget.height, (j) => Node.idle));
   }
 
   void switchStage(int index) {
@@ -52,10 +53,17 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
   void handleNodeClick(Position pos) {
     setState(() {
       switch (stage) {
-        case PickingStage.start: setStart(pos); break;
-        case PickingStage.target: setTarget(pos); break;
-        case PickingStage.obstacles: setObstacle(pos); break;
-        default: print("Unreachable");
+        case PickingStage.start:
+          setStart(pos);
+          break;
+        case PickingStage.target:
+          setTarget(pos);
+          break;
+        case PickingStage.obstacles:
+          setObstacle(pos);
+          break;
+        default:
+          print("Unreachable");
       }
     });
   }
@@ -83,22 +91,29 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
       case Node.target:
         target = null;
         break;
-      default: print("Unreachable");
+      default:
+        print("Unreachable");
     }
 
     pos.setIn(nodes, Node.obstacle);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: AppBar(backgroundColor: Colors.red),
       body: Center(
-        child: InteractiveViewer(
-          boundaryMargin: const EdgeInsets.all(70),
-          clipBehavior: Clip.none,
-          child: ChangeableGrid(nodes: nodes, onNodeClick: handleNodeClick)
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return InteractiveViewer(
+              boundaryMargin: const EdgeInsets.all(70),
+              clipBehavior: Clip.none,
+              child: Center(
+                child: ChangeableGrid(nodes: nodes, onNodeClick: handleNodeClick),
+              )
+            );
+          },
         ),
       ),
     );
