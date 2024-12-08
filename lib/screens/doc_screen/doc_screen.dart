@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:path_finding/app/router.dart';
 import 'package:path_finding/app/router.gr.dart';
 
 @RoutePage()

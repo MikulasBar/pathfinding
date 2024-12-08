@@ -14,13 +14,11 @@ enum PickingStage {
 class PositionConfigScreen extends StatefulWidget {
   final int width;
   final int height;
-  final Algorithm alg;
 
   const PositionConfigScreen({
     super.key,
     required this.width,
     required this.height,
-    required this.alg,
   });
 
   @override

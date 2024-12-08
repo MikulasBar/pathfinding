@@ -20,14 +20,12 @@ class _ConfigScreenState extends State<ConfigScreen> {
   
   late int width;
   late int height;
-  late Algorithm alg;
 
   @override
   void initState() {
     super.initState();
     width = minSize.toInt();
     height = minSize.toInt();
-    alg = Algorithm.BFS;
   }
 
   void changeWidth(double value) {
@@ -39,17 +37,6 @@ class _ConfigScreenState extends State<ConfigScreen> {
   void changeHeight(double value) {
     setState(() {
       height = value.toInt();
-    });
-  }
-
-  void changeAlg(Algorithm? value) {
-    if (value == null) {
-      print('Algorithm is null, Somehow');
-      return;
-    }
-
-    setState(() {
-      alg = value;
     });
   }
 
@@ -70,26 +57,16 @@ class _ConfigScreenState extends State<ConfigScreen> {
               Text('Height: $height', style: const TextStyle(fontSize: 18),),
               SizeSlider(value: height.toDouble(), onChanged: changeHeight, minSize: minSize, maxSize: maxSize),
               const SizedBox(height: 30),
-              const Text('Algorithm', style: TextStyle(fontSize: 18)),
-              const SizedBox(height: 10),
-              DropdownMenu<Algorithm>(
-                dropdownMenuEntries: Algorithm.variants.map(
-                    (e) => DropdownMenuEntry(value: e, label: e.toString())
-                  ).toList(),
-                onSelected: changeAlg,
-                initialSelection: Algorithm.BFS,
-              ),
-              const SizedBox(height: 30),
-              FloatingActionButton(
-                onPressed: () {
-                  context.router.push(PositionConfigRoute(width: width, height: height, alg: alg));
-                },
-                child: const Icon(Icons.arrow_right_alt),
-              ),
+              
             ],
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.router.push(PositionConfigRoute(width: width, height: height)),
+        child: const Icon(Icons.check),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

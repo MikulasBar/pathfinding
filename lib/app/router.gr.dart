@@ -10,7 +10,6 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i6;
 import 'package:flutter/material.dart' as _i7;
-import 'package:path_finding/algorithm.dart' as _i8;
 import 'package:path_finding/screens/animation_screen/animation_screen.dart'
     as _i1;
 import 'package:path_finding/screens/config_screen/config_screen.dart' as _i2;
@@ -83,7 +82,6 @@ class PositionConfigRoute extends _i6.PageRouteInfo<PositionConfigRouteArgs> {
     _i7.Key? key,
     required int width,
     required int height,
-    required _i8.Algorithm alg,
     List<_i6.PageRouteInfo>? children,
   }) : super(
           PositionConfigRoute.name,
@@ -91,7 +89,6 @@ class PositionConfigRoute extends _i6.PageRouteInfo<PositionConfigRouteArgs> {
             key: key,
             width: width,
             height: height,
-            alg: alg,
           ),
           initialChildren: children,
         );
@@ -106,7 +103,6 @@ class PositionConfigRoute extends _i6.PageRouteInfo<PositionConfigRouteArgs> {
         key: args.key,
         width: args.width,
         height: args.height,
-        alg: args.alg,
       );
     },
   );
@@ -117,7 +113,6 @@ class PositionConfigRouteArgs {
     this.key,
     required this.width,
     required this.height,
-    required this.alg,
   });
 
   final _i7.Key? key;
@@ -126,11 +121,9 @@ class PositionConfigRouteArgs {
 
   final int height;
 
-  final _i8.Algorithm alg;
-
   @override
   String toString() {
-    return 'PositionConfigRouteArgs{key: $key, width: $width, height: $height, alg: $alg}';
+    return 'PositionConfigRouteArgs{key: $key, width: $width, height: $height}';
   }
 }
 
