@@ -21,7 +21,7 @@ class SizeSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slider(
-      label: '${value.toInt()}',
+      // label: '${value.toInt()}',
       divisions: divisions,
       min: minSize,
       max: maxSize,

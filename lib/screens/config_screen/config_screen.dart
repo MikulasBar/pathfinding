@@ -16,46 +16,47 @@ class ConfigScreen extends StatefulWidget {
 
 class _ConfigScreenState extends State<ConfigScreen> {
   static const minSize = 2.0;
-  static const maxSize = 10.0;
+  static const maxSize = 20.0;
   
-  late int rows;
-  late int columns;
-  late Algorithm pickedAlg;
+  late int width;
+  late int height;
+  late Algorithm alg;
 
   @override
   void initState() {
     super.initState();
-    rows = minSize.toInt();
-    columns = minSize.toInt();
+    width = minSize.toInt();
+    height = minSize.toInt();
+    alg = Algorithm.BFS;
   }
 
-  void changeRows(double value) {
+  void changeWidth(double value) {
     setState(() {
-      rows = value.toInt();
+      width = value.toInt();
     });
   }
 
-  void changeColumns(double value) {
+  void changeHeight(double value) {
     setState(() {
-      columns = value.toInt();
+      height = value.toInt();
     });
   }
 
   void changeAlg(Algorithm? value) {
     if (value == null) {
-      print('Algorithm is null');
+      print('Algorithm is null, Somehow');
       return;
     }
 
     setState(() {
-      pickedAlg = value;
+      alg = value;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(backgroundColor: Colors.red,),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(40.0),
@@ -64,10 +65,10 @@ class _ConfigScreenState extends State<ConfigScreen> {
             children: [
               const Text('Choose config', style: TextStyle(fontSize: 28)),
               const SizedBox(height: 30),
-              Text('Rows: $rows', style: const TextStyle(fontSize: 18),),
-              SizeSlider(value: rows.toDouble(), onChanged: changeRows, minSize: minSize, maxSize: maxSize),
-              Text('Columns: $columns', style: const TextStyle(fontSize: 18),),
-              SizeSlider(value: columns.toDouble(), onChanged: changeColumns, minSize: minSize, maxSize: maxSize),
+              Text('Width: $width', style: const TextStyle(fontSize: 18),),
+              SizeSlider(value: width.toDouble(), onChanged: changeWidth, minSize: minSize, maxSize: maxSize),
+              Text('Height: $height', style: const TextStyle(fontSize: 18),),
+              SizeSlider(value: height.toDouble(), onChanged: changeHeight, minSize: minSize, maxSize: maxSize),
               const SizedBox(height: 30),
               const Text('Algorithm', style: TextStyle(fontSize: 18)),
               const SizedBox(height: 10),
@@ -81,8 +82,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
               const SizedBox(height: 30),
               FloatingActionButton(
                 onPressed: () {
-                  AutoRouter.of(context)
-                    .push(const PositionConfigRoute());
+                  context.router.push(PositionConfigRoute(width: width, height: height, alg: alg));
                 },
                 child: const Icon(Icons.arrow_right_alt),
               ),
