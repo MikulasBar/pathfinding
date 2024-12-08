@@ -13,6 +13,7 @@ class DocScreen extends StatelessWidget {
         child: Text('Documentation soon :)', style: TextStyle(fontSize: 18),),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red,
         child: const Icon(Icons.check),
         onPressed: () => context.router.push(const ConfigRoute())
       ),

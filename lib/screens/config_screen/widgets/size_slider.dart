@@ -21,7 +21,8 @@ class SizeSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Slider(
-      // label: '${value.toInt()}',
+      thumbColor: Colors.red,
+      activeColor: Colors.red,
       divisions: divisions,
       min: minSize,
       max: maxSize,

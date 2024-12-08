@@ -60,6 +60,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red,
         onPressed: () => context.router.push(PositionConfigRoute(width: width, height: height)),
         child: const Icon(Icons.check),
       ),
