@@ -52,6 +52,10 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
     });
   }
 
+  bool canProceed() {
+    return start != null && target != null;
+  }
+
   void handleNodeClick(Position pos) {
     setState(() {
       switch (stage) {
@@ -121,8 +125,10 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: canProceed() ? Colors.red : Colors.grey[100]!,
+        foregroundColor: canProceed() ? Colors.black : Colors.grey,
+        onPressed: () => canProceed() ? context.router.push(const StatsRoute()) : null,
         child: const Icon(Icons.check),
-        onPressed: () => context.router.push(const StatsRoute()),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
