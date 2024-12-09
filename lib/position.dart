@@ -12,5 +12,9 @@ class Position {
   void setIn<T>(List<List<T>> grid, T val) {
     grid[x][y] = val;
   }
+
+  int taxicabDist(Position rhs) {
+    return (x - rhs.x).abs() + (y - rhs.y).abs();
+  }
 }
 

@@ -58,6 +58,14 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
 
   void handleNodeClick(Position pos) {
     setState(() {
+      if (pos.getFrom(nodes) == Node.start) {
+        start = null;
+      }
+
+      if (pos.getFrom(nodes) == Node.target) {
+        target = null;
+      }
+
       switch (stage) {
         case PickingStage.start:
           setStart(pos);
@@ -87,18 +95,8 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
   }
 
   void setObstacle(Position pos) {
-    switch (pos.getFrom(nodes)) {
-      case Node.obstacle:
-        pos.setIn(nodes, Node.idle);
-        return;
-      case Node.start:
-        start = null;
-        break;
-      case Node.target:
-        target = null;
-        break;
-      default:
-        print("Unreachable");
+    if (pos.getFrom(nodes) == Node.obstacle) {
+      pos.setIn(nodes, Node.idle);
     }
 
     pos.setIn(nodes, Node.obstacle);

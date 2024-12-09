@@ -40,7 +40,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.red,),
+      appBar: AppBar(backgroundColor: Colors.red),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(40.0),
@@ -53,8 +53,6 @@ class _ConfigScreenState extends State<ConfigScreen> {
               SizeSlider(value: width.toDouble(), onChanged: changeWidth, minSize: minSize, maxSize: maxSize),
               Text('Height: $height', style: const TextStyle(fontSize: 18),),
               SizeSlider(value: height.toDouble(), onChanged: changeHeight, minSize: minSize, maxSize: maxSize),
-              const SizedBox(height: 30),
-              
             ],
           ),
         ),
