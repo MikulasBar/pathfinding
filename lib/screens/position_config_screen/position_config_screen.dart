@@ -6,7 +6,7 @@ import 'package:path_finding/app/router.gr.dart';
 import 'package:path_finding/screens/position_config_screen/widgets/changeable_grid.dart';
 import 'package:path_finding/screens/position_config_screen/widgets/stage_buttons.dart';
 
-import 'node.dart';
+import '../../node.dart';
 
 enum PickingStage {
   start,
@@ -40,7 +40,7 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
   void initState() {
     super.initState();
     nodes = List.generate(
-        widget.width, (i) => List.generate(widget.height, (j) => Node.idle));
+      widget.width, (i) => List.generate(widget.height, (j) => Node.idle));
   }
 
   void switchStage(int index) {
