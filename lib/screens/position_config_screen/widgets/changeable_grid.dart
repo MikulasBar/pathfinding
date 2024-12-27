@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:path_finding/algorithm.dart';
-import 'package:path_finding/position.dart';
+import 'package:path_finding/gridfind/node.dart';
+import 'package:path_finding/gridfind/point.dart';
 
 
 class ChangeableGrid extends StatelessWidget {
   static const nodeSize = 20.0;
   final List<List<Node>> nodes;
-  final Function(Position) onNodeClick;
+  final Function(Point) onNodeClick;
   
   const ChangeableGrid({
     super.key,
@@ -19,7 +19,7 @@ class ChangeableGrid extends StatelessWidget {
     for (int i = 0; i < nodes.length; i++) {
       for (int j = 0; j < nodes[i].length; j++) {
         blocks.add(GestureDetector(
-          onTap: () => onNodeClick(Position(i, j)),
+          onTap: () => onNodeClick(Point(i, j)),
           child: Container(
             width: nodeSize,
             height: nodeSize,

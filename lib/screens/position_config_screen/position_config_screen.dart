@@ -1,11 +1,10 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:path_finding/algorithm.dart';
-import 'package:path_finding/app/router.dart';
+import 'package:path_finding/gridfind/node.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:path_finding/app/router.gr.dart';
 import 'package:path_finding/screens/position_config_screen/widgets/changeable_grid.dart';
-import 'package:path_finding/position.dart';
+import 'package:path_finding/gridfind/point.dart';
 import 'package:path_finding/screens/position_config_screen/widgets/stage_buttons.dart';
 
 enum PickingStage {
@@ -31,8 +30,8 @@ class PositionConfigScreen extends StatefulWidget {
 
 class _PositionConfigScreenState extends State<PositionConfigScreen> {
   late List<List<Node>> nodes;
-  Position? start;
-  Position? target;
+  Point? start;
+  Point? target;
   PickingStage stage = PickingStage.start;
   List<bool> isSelected = [true, false, false];
 
@@ -56,13 +55,13 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
     return start != null && target != null;
   }
 
-  void handleNodeClick(Position pos) {
+  void handleNodeClick(Point pos) {
     setState(() {
-      if (pos.getFrom(nodes) == Node.start) {
+      if (pos.get(nodes) == Node.start) {
         start = null;
       }
 
-      if (pos.getFrom(nodes) == Node.target) {
+      if (pos.get(nodes) == Node.target) {
         target = null;
       }
 
@@ -82,24 +81,24 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
     });
   }
 
-  void setStart(Position pos) {
-    start?.setIn(nodes, Node.idle);
+  void setStart(Point pos) {
+    start?.set(nodes, Node.idle);
     start = pos;
-    start!.setIn(nodes, Node.start);
+    start!.set(nodes, Node.start);
   }
 
-  void setTarget(Position pos) {
-    target?.setIn(nodes, Node.idle);
+  void setTarget(Point pos) {
+    target?.set(nodes, Node.idle);
     target = pos;
-    target!.setIn(nodes, Node.target);
+    target!.set(nodes, Node.target);
   }
 
-  void setObstacle(Position pos) {
-    if (pos.getFrom(nodes) == Node.obstacle) {
-      pos.setIn(nodes, Node.idle);
+  void setObstacle(Point pos) {
+    if (pos.get(nodes) == Node.obstacle) {
+      pos.set(nodes, Node.idle);
     }
 
-    pos.setIn(nodes, Node.obstacle);
+    pos.set(nodes, Node.obstacle);
   }
 
   @override
