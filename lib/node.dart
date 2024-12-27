@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 
 enum Node {
@@ -7,7 +9,7 @@ enum Node {
   target,
   open,
   closed;
-
+  
   Color toColor() {
     return switch (this) {
       idle => Colors.white,

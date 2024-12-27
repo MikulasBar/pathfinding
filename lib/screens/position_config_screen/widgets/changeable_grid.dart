@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:path_finding/gridfind/node.dart';
-import 'package:path_finding/gridfind/point.dart';
+import 'package:gridfind/point.dart';
 
+import '../node.dart';
 
 class ChangeableGrid extends StatelessWidget {
   static const nodeSize = 20.0;
@@ -64,3 +64,4 @@ class ChangeableGrid extends StatelessWidget {
     );
   }
 }
+

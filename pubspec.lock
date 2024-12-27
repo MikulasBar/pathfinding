@@ -256,6 +256,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  gridfind:
+    dependency: "direct main"
+    description:
+      name: gridfind
+      sha256: "2bc058c63fe4407dbc9154b9bab1a7ddbf61f2b122a6923c77a481260bd51194"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0-alpha"
   http_multi_server:
     dependency: transitive
     description:

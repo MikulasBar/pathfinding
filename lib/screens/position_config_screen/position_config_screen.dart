@@ -1,11 +1,12 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
-import 'package:path_finding/gridfind/node.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:gridfind/point.dart';
 import 'package:path_finding/app/router.gr.dart';
 import 'package:path_finding/screens/position_config_screen/widgets/changeable_grid.dart';
-import 'package:path_finding/gridfind/point.dart';
 import 'package:path_finding/screens/position_config_screen/widgets/stage_buttons.dart';
+
+import 'node.dart';
 
 enum PickingStage {
   start,
