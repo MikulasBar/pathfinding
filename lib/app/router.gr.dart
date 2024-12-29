@@ -9,11 +9,9 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i6;
-import 'package:flutter/material.dart' as _i9;
-import 'package:gridfind/gridfind.dart' as _i10;
-import 'package:gridfind/node.dart' as _i8;
-import 'package:gridfind/point.dart' as _i7;
-import 'package:path_finding/node.dart' as _i11;
+import 'package:flutter/material.dart' as _i8;
+import 'package:gridfind/gridfind.dart' as _i7;
+import 'package:path_finding/node.dart' as _i9;
 import 'package:path_finding/screens/animation_screen/animation_screen.dart'
     as _i1;
 import 'package:path_finding/screens/config_screen/config_screen.dart' as _i2;
@@ -26,17 +24,17 @@ import 'package:path_finding/screens/stats_screen/stats_screen.dart' as _i5;
 /// [_i1.AnimationScreen]
 class AnimationRoute extends _i6.PageRouteInfo<AnimationRouteArgs> {
   AnimationRoute({
-    required _i7.Point start,
-    required _i7.Point target,
-    required List<List<_i8.Node>> grid,
-    _i9.Key? key,
+    required _i7.PathFindingState state,
+    required _i7.PathFindingStrategy<_i7.PathFindingState> alg,
+    required String name,
+    _i8.Key? key,
     List<_i6.PageRouteInfo>? children,
   }) : super(
           AnimationRoute.name,
           args: AnimationRouteArgs(
-            start: start,
-            target: target,
-            grid: grid,
+            state: state,
+            alg: alg,
+            name: name,
             key: key,
           ),
           initialChildren: children,
@@ -49,9 +47,9 @@ class AnimationRoute extends _i6.PageRouteInfo<AnimationRouteArgs> {
     builder: (data) {
       final args = data.argsAs<AnimationRouteArgs>();
       return _i1.AnimationScreen(
-        args.start,
-        args.target,
-        args.grid,
+        args.state,
+        args.alg,
+        args.name,
         key: args.key,
       );
     },
@@ -60,23 +58,23 @@ class AnimationRoute extends _i6.PageRouteInfo<AnimationRouteArgs> {
 
 class AnimationRouteArgs {
   const AnimationRouteArgs({
-    required this.start,
-    required this.target,
-    required this.grid,
+    required this.state,
+    required this.alg,
+    required this.name,
     this.key,
   });
 
-  final _i7.Point start;
+  final _i7.PathFindingState state;
 
-  final _i7.Point target;
+  final _i7.PathFindingStrategy<_i7.PathFindingState> alg;
 
-  final List<List<_i8.Node>> grid;
+  final String name;
 
-  final _i9.Key? key;
+  final _i8.Key? key;
 
   @override
   String toString() {
-    return 'AnimationRouteArgs{start: $start, target: $target, grid: $grid, key: $key}';
+    return 'AnimationRouteArgs{state: $state, alg: $alg, name: $name, key: $key}';
   }
 }
 
@@ -122,7 +120,7 @@ class DocRoute extends _i6.PageRouteInfo<void> {
 /// [_i4.PositionConfigScreen]
 class PositionConfigRoute extends _i6.PageRouteInfo<PositionConfigRouteArgs> {
   PositionConfigRoute({
-    _i9.Key? key,
+    _i8.Key? key,
     required int width,
     required int height,
     List<_i6.PageRouteInfo>? children,
@@ -158,7 +156,7 @@ class PositionConfigRouteArgs {
     required this.height,
   });
 
-  final _i9.Key? key;
+  final _i8.Key? key;
 
   final int width;
 
@@ -174,10 +172,10 @@ class PositionConfigRouteArgs {
 /// [_i5.StatsScreen]
 class StatsRoute extends _i6.PageRouteInfo<StatsRouteArgs> {
   StatsRoute({
-    _i9.Key? key,
-    required _i10.Point start,
-    required _i10.Point target,
-    required List<List<_i11.Node>> grid,
+    _i8.Key? key,
+    required _i7.Point start,
+    required _i7.Point target,
+    required List<List<_i9.Node>> grid,
     List<_i6.PageRouteInfo>? children,
   }) : super(
           StatsRoute.name,
@@ -214,13 +212,13 @@ class StatsRouteArgs {
     required this.grid,
   });
 
-  final _i9.Key? key;
+  final _i8.Key? key;
 
-  final _i10.Point start;
+  final _i7.Point start;
 
-  final _i10.Point target;
+  final _i7.Point target;
 
-  final List<List<_i11.Node>> grid;
+  final List<List<_i9.Node>> grid;
 
   @override
   String toString() {

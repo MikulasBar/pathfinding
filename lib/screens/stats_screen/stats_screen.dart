@@ -1,9 +1,11 @@
 import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gridfind/gridfind.dart';
+import 'package:path_finding/app/router.gr.dart';
 import 'package:path_finding/node.dart' as dn;
 import 'package:path_finding/screens/stats_screen/widgets/overall_stats.dart';
 import 'package:path_finding/screens/stats_screen/widgets/task_stats.dart';
+import 'package:auto_route/auto_route.dart';
 
 @RoutePage()
 class StatsScreen extends StatefulWidget {
@@ -52,12 +54,30 @@ class _StatsScreenState extends State<StatsScreen> {
   }
 
   List<(PathFindingState, PathFindingStrategy, String)> initStates() {
+    return [0]
+      .map((x) => initOnlyState(x))
+      .toList();
+  }
+
+  (PathFindingState, PathFindingStrategy, String) initOnlyState(int index) {
     final start = widget.start;
     final target = widget.target;
+    
+    return switch(index) {
+      0 => (BFSState.init(start, target, grid), BFS(), 'BFS'),
+      _ => throw Exception(),
+    };
+  }
 
-    return [
-      (BFSState.init(start, target, grid), BFS(), 'BFS'), 
-    ];
+  Function() prepareCallback(
+    BuildContext context,
+    PathFindingState state,
+    PathFindingStrategy alg,
+    String name,
+  ) {
+    return () {
+      context.router.push(AnimationRoute(widget.start, widget.target, state, alg, name));
+    };
   }
 
   @override
@@ -79,7 +99,6 @@ class _StatsScreenState extends State<StatsScreen> {
           final results = snapshot.data!;
           final count = results.length;
           final isDoable = results[0].$1 != null;
-          // TODO: Since not every algorithm will spit out best path we must change this stats 
           return Column(
             children: [
               OverallStats(isDoable),
@@ -89,6 +108,7 @@ class _StatsScreenState extends State<StatsScreen> {
                 shrinkWrap: true,
                 itemBuilder: (context, i) {
                   final res = results[i];
+                  final (state, alg, name) = initOnlyState(i);
                   return TaskStats(results[i].$1?.length, res.$2, res.$3);
                 }
               )

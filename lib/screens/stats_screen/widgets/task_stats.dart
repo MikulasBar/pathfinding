@@ -4,11 +4,13 @@ class TaskStats extends StatelessWidget {
   final Duration duration;
   final String name;
   final int? path;
+  final Function() cb;
 
   const TaskStats(
     this.path,
     this.duration,
     this.name,
+    this.cb,
     {super.key}
   );
 
@@ -49,6 +51,7 @@ class TaskStats extends StatelessWidget {
                     fontSize: 16.0,
                   ),
                 ),
+                IconButton(onPressed: cb(), icon: Icon(Icons.play_arrow))
               ],
             ),
             const SizedBox(height: 8.0),
