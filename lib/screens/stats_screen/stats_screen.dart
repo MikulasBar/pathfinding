@@ -23,18 +23,19 @@ class StatsScreen extends StatefulWidget {
 }
 
 class _StatsScreenState extends State<StatsScreen> {
+  late final List<List<Node>> grid;
   late Future<List<(List<Point>?, Duration, String)>> tasks;
 
   @override
   void initState() {
     super.initState();
 
-    final grid = setupGrid(widget.grid);
-    tasks = initAsyncTasks(grid);
+    grid = setupGrid(widget.grid);
+    tasks = initAsyncTasks();
   }
 
-  Future<List<(List<Point>?, Duration, String)>> initAsyncTasks(List<List<Node>> grid) {
-    final tasks = initStates(widget.start, widget.target, grid)
+  Future<List<(List<Point>?, Duration, String)>> initAsyncTasks() {
+    final tasks = initStates()
       .map((s) => solveStateAsync(s.$1, s.$2, s.$3))
       .toList();
 
@@ -50,11 +51,10 @@ class _StatsScreenState extends State<StatsScreen> {
     return (res.$1, res.$2, name);
   }
 
-  List<(PathFindingState, PathFindingStrategy, String)> initStates(
-    Point start,
-    Point target,
-    List<List<Node>> grid
-  ) {
+  List<(PathFindingState, PathFindingStrategy, String)> initStates() {
+    final start = widget.start;
+    final target = widget.target;
+
     return [
       (BFSState.init(start, target, grid), BFS(), 'BFS'), 
     ];
@@ -80,7 +80,7 @@ class _StatsScreenState extends State<StatsScreen> {
           final count = results.length;
           final isDoable = results[0].$1 != null;
           final pathLen = results.firstWhere((x) => x.$1 != null).$1?.length;          
-
+          // TODO: Since not every algorithm will spit out best path we must change this stats 
           return Column(
             children: [
               OverallStats(isDoable: isDoable, pathLen: pathLen),

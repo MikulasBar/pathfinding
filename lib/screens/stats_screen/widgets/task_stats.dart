@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:gridfind/point.dart';
 
 class TaskStats extends StatelessWidget {
   final Duration duration;
   final String name;
 
-  TaskStats({
+  const TaskStats({
     super.key,
     required this.duration,
     required this.name,

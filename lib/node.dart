@@ -6,14 +6,18 @@ enum Node {
   idle,
   obstacle,
   start,
-  target;
+  target,
+  open,
+  closed;
   
   Color toColor() {
     return switch (this) {
       idle => Colors.white,
       obstacle => Colors.black,
       start => Colors.orange,
-      target => Colors.blue[600]!,
+      target => Colors.blue,
+      open => Colors.green,
+      closed => Colors.red,
     };
   }
 }
