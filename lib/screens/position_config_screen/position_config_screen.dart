@@ -125,7 +125,7 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: canProceed() ? Colors.red : Colors.grey[100]!,
         foregroundColor: canProceed() ? Colors.black : Colors.grey,
-        onPressed: () => canProceed() ? context.router.push(const StatsRoute()) : null,
+        onPressed: () => canProceed() ? context.router.push(StatsRoute(start: start!, target: target!, grid: nodes)) : null,
         child: const Icon(Icons.check),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

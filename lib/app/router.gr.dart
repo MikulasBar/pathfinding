@@ -10,6 +10,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i6;
 import 'package:flutter/material.dart' as _i7;
+import 'package:gridfind/gridfind.dart' as _i8;
+import 'package:path_finding/node.dart' as _i9;
 import 'package:path_finding/screens/animation_screen/animation_screen.dart'
     as _i1;
 import 'package:path_finding/screens/config_screen/config_screen.dart' as _i2;
@@ -129,10 +131,21 @@ class PositionConfigRouteArgs {
 
 /// generated route for
 /// [_i5.StatsScreen]
-class StatsRoute extends _i6.PageRouteInfo<void> {
-  const StatsRoute({List<_i6.PageRouteInfo>? children})
-      : super(
+class StatsRoute extends _i6.PageRouteInfo<StatsRouteArgs> {
+  StatsRoute({
+    _i7.Key? key,
+    required _i8.Point start,
+    required _i8.Point target,
+    required List<List<_i9.Node>> grid,
+    List<_i6.PageRouteInfo>? children,
+  }) : super(
           StatsRoute.name,
+          args: StatsRouteArgs(
+            key: key,
+            start: start,
+            target: target,
+            grid: grid,
+          ),
           initialChildren: children,
         );
 
@@ -141,7 +154,35 @@ class StatsRoute extends _i6.PageRouteInfo<void> {
   static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
-      return const _i5.StatsScreen();
+      final args = data.argsAs<StatsRouteArgs>();
+      return _i5.StatsScreen(
+        key: args.key,
+        start: args.start,
+        target: args.target,
+        grid: args.grid,
+      );
     },
   );
+}
+
+class StatsRouteArgs {
+  const StatsRouteArgs({
+    this.key,
+    required this.start,
+    required this.target,
+    required this.grid,
+  });
+
+  final _i7.Key? key;
+
+  final _i8.Point start;
+
+  final _i8.Point target;
+
+  final List<List<_i9.Node>> grid;
+
+  @override
+  String toString() {
+    return 'StatsRouteArgs{key: $key, start: $start, target: $target, grid: $grid}';
+  }
 }

@@ -2,54 +2,61 @@ import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gridfind/gridfind.dart';
 import 'package:path_finding/node.dart' as dn;
+import 'package:path_finding/screens/stats_screen/widgets/overall_stats.dart';
+import 'package:path_finding/screens/stats_screen/widgets/task_stats.dart';
 
 @RoutePage()
 class StatsScreen extends StatefulWidget {
-  StatsScreen({
-    required super.key,
+  const StatsScreen({
+    super.key,
     required this.start,
     required this.target,
     required this.grid,
   });
 
-  Point start;
-  Point target;
-  List<List<dn.Node>> grid;
+  final Point start;
+  final Point target;
+  final List<List<dn.Node>> grid;
 
   @override
   State<StatsScreen> createState() => _StatsScreenState();
 }
 
 class _StatsScreenState extends State<StatsScreen> {
-  late List<Future<(List<Point>?, Duration)>> tasks;
+  late Future<List<(List<Point>?, Duration, String)>> tasks;
 
   @override
   void initState() {
     super.initState();
 
-    final start = widget.start;
-    final target = widget.target;
     final grid = setupGrid(widget.grid);
-
-    tasks = initStates(start, target, grid)
-      .map((s) => solveStateAsync(s.$1, s.$2))
-      .toList();
+    tasks = initAsyncTasks(grid);
   }
 
-  Future<(List<Point>?, Duration)> solveStateAsync(
+  Future<List<(List<Point>?, Duration, String)>> initAsyncTasks(List<List<Node>> grid) {
+    final tasks = initStates(widget.start, widget.target, grid)
+      .map((s) => solveStateAsync(s.$1, s.$2, s.$3))
+      .toList();
+
+    return Future.wait(tasks);
+  }
+
+  Future<(List<Point>?, Duration, String)> solveStateAsync(
     PathFindingState state,
     PathFindingStrategy alg,
+    String name,
   ) async {
-    return measure(() => alg.solve(state));
+    final res = measure(() => alg.solve(state));
+    return (res.$1, res.$2, name);
   }
 
-  List<(PathFindingState, PathFindingStrategy)> initStates(
+  List<(PathFindingState, PathFindingStrategy, String)> initStates(
     Point start,
     Point target,
     List<List<Node>> grid
   ) {
     return [
-      (BFSState.init(start, target, grid), BFS()), 
+      (BFSState.init(start, target, grid), BFS(), 'BFS'), 
     ];
   }
 
@@ -59,10 +66,36 @@ class _StatsScreenState extends State<StatsScreen> {
       appBar: AppBar(
         backgroundColor: Colors.red,
       ),
-      body: const Column(
-        children: [
-          // TODO
-        ],
+      body: FutureBuilder(
+        future: tasks,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData) {
+            return const Center(child: Text('Snaphost has no data'));
+          }
+          final results = snapshot.data!;
+          final count = results.length;
+          final isDoable = results[0].$1 != null;
+          final pathLen = results.firstWhere((x) => x.$1 != null).$1?.length;          
+
+          return Column(
+            children: [
+              OverallStats(isDoable: isDoable, pathLen: pathLen),
+              ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: count,
+                shrinkWrap: true,
+                itemBuilder: (context, i) {
+                  final res = results[i];
+                  return TaskStats(name: res.$3, duration: res.$2);
+                }
+              )
+            ],
+          );
+        },
       ),
     );
   }
