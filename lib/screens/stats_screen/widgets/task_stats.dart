@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class TaskStats extends StatelessWidget {
   final Duration duration;
   final String name;
+  final int? path;
 
-  const TaskStats({
-    super.key,
-    required this.duration,
-    required this.name,
-  });
+  const TaskStats(
+    this.path,
+    this.duration,
+    this.name,
+    {super.key}
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -31,11 +33,23 @@ class TaskStats extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              '${duration.inMilliseconds} ms',
-              style: const TextStyle(
-                fontSize: 16.0,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  '${duration.inMilliseconds} ms',
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+                const SizedBox(width: 10.0),
+                Text(
+                  '$path nodes',
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 8.0),
           ],

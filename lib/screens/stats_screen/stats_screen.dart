@@ -79,18 +79,17 @@ class _StatsScreenState extends State<StatsScreen> {
           final results = snapshot.data!;
           final count = results.length;
           final isDoable = results[0].$1 != null;
-          final pathLen = results.firstWhere((x) => x.$1 != null).$1?.length;          
           // TODO: Since not every algorithm will spit out best path we must change this stats 
           return Column(
             children: [
-              OverallStats(isDoable: isDoable, pathLen: pathLen),
+              OverallStats(isDoable),
               ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: count,
                 shrinkWrap: true,
                 itemBuilder: (context, i) {
                   final res = results[i];
-                  return TaskStats(name: res.$3, duration: res.$2);
+                  return TaskStats(results[i].$1?.length, res.$2, res.$3);
                 }
               )
             ],

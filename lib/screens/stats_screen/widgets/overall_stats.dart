@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 
 class OverallStats extends StatelessWidget {
   final bool isDoable;
-  final int? pathLen; 
   
-  const OverallStats({
-    super.key,
-    required this.isDoable,
-    required this.pathLen,
-  });
+  const OverallStats(
+    this.isDoable,
+    {super.key,}
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +40,16 @@ class OverallStats extends StatelessWidget {
                 ),
               ],
             ),
-            if (isDoable)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  'Path length: $pathLen',
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
+            // if (isDoable)
+            //   Padding(
+            //     padding: const EdgeInsets.only(top: 8.0),
+            //     child: Text(
+            //       'Path length: $pathLen',
+            //       style: const TextStyle(
+            //         fontSize: 16.0,
+            //       ),
+            //     ),
+            //   ),
           ],
         ),
       ),
