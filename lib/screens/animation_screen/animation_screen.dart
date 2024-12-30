@@ -52,6 +52,7 @@ class _AnimationScreenState extends State<AnimationScreen> {
     const freq = Duration(milliseconds: 45);
     if (!finished) {
       setState(() {
+
         timer = Timer.periodic(freq, (_) => tick());
         isRunning = true;
       });
@@ -79,6 +80,7 @@ class _AnimationScreenState extends State<AnimationScreen> {
   void reset() {
     setState(() {
       state = widget.state.copy();
+      isRunning = false;
       finished = false;
     });
   }
@@ -99,18 +101,21 @@ class _AnimationScreenState extends State<AnimationScreen> {
                 FloatingActionButton(
                   onPressed: isRunning ? null : reset,
                   backgroundColor: isRunning ? Colors.grey : Colors.orange,
+                  heroTag: 'resetbtn',
                   child: const Icon(Icons.restore),
                 ),
                 const SizedBox(width: 16),
                 FloatingActionButton(
                   onPressed: isRunning || finished ? null : tick,
                   backgroundColor: isRunning || finished ? Colors.grey : Colors.blue,
+                  heroTag: 'tickbtn',
                   child: const Icon(Icons.skip_next),
                 ),
                 const SizedBox(width: 16),
                 FloatingActionButton(
                   onPressed: finished ? null : (isRunning ? stopTimer : startTimer),
                   backgroundColor: finished ? Colors.grey : Colors.red,
+                  heroTag: 'pausebtn',
                   child: Icon(isRunning ? Icons.pause : Icons.play_arrow),
                 ),
               ],

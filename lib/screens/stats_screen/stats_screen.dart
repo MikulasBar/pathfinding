@@ -55,7 +55,7 @@ class _StatsScreenState extends State<StatsScreen> {
   }
 
   List<(PathFindingState, PathFindingStrategy, String)> initStates() {
-    return [0]
+    return [0, 1, 2, 3]
       .map((x) => initOnlyState(x))
       .toList();
   }
@@ -67,6 +67,9 @@ class _StatsScreenState extends State<StatsScreen> {
     
     return switch(index) {
       0 => (BFSState.init(start, target, cloneGrid(grid), diag), BFS(), 'BFS'),
+      1 => (AstarState.init(start, target, cloneGrid(grid), diag), Astar(), 'A*'),
+      2 => (DFSState.init(start, target, cloneGrid(grid), diag), DFS(), 'DFS'),
+      3 => (DijkstraState.init(start, target, cloneGrid(grid), diag), Dijkstra(), 'Dijskra'),
       _ => throw Exception(),
     };
   }

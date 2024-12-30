@@ -19,7 +19,7 @@ class StageButtons extends StatelessWidget {
     for (var i = 0; i < stages.length; i++) {
       options.add( Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Text('${stages[i]}'),
+        child: Text('$stages[i]'),
       ));
     }
     return options;
