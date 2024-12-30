@@ -4,7 +4,7 @@ class TaskStats extends StatelessWidget {
   final Duration duration;
   final String name;
   final int? path;
-  final Function() cb;
+  final VoidCallback cb;
 
   const TaskStats(
     this.path,
@@ -24,37 +24,49 @@ class TaskStats extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              name,
-              style: const TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    children: [
+                      Text(
+                        '${duration.inMilliseconds} ms',
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      const SizedBox(width: 10.0),
+                      if (path != null) ...[
+                        Text(
+                          '$path nodes',
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        )
+                      ]
+                    ],
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 8.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  '${duration.inMilliseconds} ms',
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-                const SizedBox(width: 10.0),
-                Text(
-                  '$path nodes',
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-                IconButton(onPressed: cb(), icon: Icon(Icons.play_arrow))
-              ],
+            IconButton(
+              icon: const Icon(Icons.play_arrow),
+              color: Colors.red,
+              iconSize: 30.0,
+              onPressed: cb,
             ),
-            const SizedBox(height: 8.0),
           ],
         ),
       ),

@@ -76,8 +76,7 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
         case PickingStage.obstacles:
           setObstacle(pos);
           break;
-        default:
-          print("Unreachable");
+        default: throw Exception("Unreachable");
       }
     });
   }
@@ -97,9 +96,9 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
   void setObstacle(Point pos) {
     if (pos.get(nodes) == Node.obstacle) {
       pos.set(nodes, Node.idle);
+    } else {
+      pos.set(nodes, Node.obstacle);
     }
-
-    pos.set(nodes, Node.obstacle);
   }
 
   @override

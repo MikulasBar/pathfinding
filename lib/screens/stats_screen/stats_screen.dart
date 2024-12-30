@@ -1,4 +1,3 @@
-import 'package:auto_route/annotations.dart';
 import 'package:flutter/material.dart';
 import 'package:gridfind/gridfind.dart';
 import 'package:path_finding/app/router.gr.dart';
@@ -64,20 +63,20 @@ class _StatsScreenState extends State<StatsScreen> {
     final target = widget.target;
     
     return switch(index) {
-      0 => (BFSState.init(start, target, grid), BFS(), 'BFS'),
+      0 => (BFSState.init(start, target, cloneGrid(grid)), BFS(), 'BFS'),
       _ => throw Exception(),
     };
   }
 
-  Function() prepareCallback(
+  VoidCallback prepareCallback(
     BuildContext context,
     PathFindingState state,
     PathFindingStrategy alg,
     String name,
   ) {
-    return () {
-      context.router.push(AnimationRoute(widget.start, widget.target, state, alg, name));
-    };
+    return () => context.router.push(
+      AnimationRoute(state: state, alg: alg, name: name)
+    );
   }
 
   @override
@@ -109,7 +108,8 @@ class _StatsScreenState extends State<StatsScreen> {
                 itemBuilder: (context, i) {
                   final res = results[i];
                   final (state, alg, name) = initOnlyState(i);
-                  return TaskStats(results[i].$1?.length, res.$2, res.$3);
+                  final cb = prepareCallback(context, state, alg, name);
+                  return TaskStats(results[i].$1?.length, res.$2, name, cb);
                 }
               )
             ],
@@ -140,4 +140,8 @@ List<List<Node>> setupGrid(List<List<dn.Node>> grid) {
   .toList();
 
   return newGrid;
+}
+
+List<List<Node>> cloneGrid(List<List<Node>> grid) {
+  return grid.map((row) => List<Node>.from(row)).toList();
 }
