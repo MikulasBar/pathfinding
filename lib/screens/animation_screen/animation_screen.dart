@@ -26,31 +26,18 @@ class _AnimationScreenState extends State<AnimationScreen> {
   late PathFindingState state;
   Timer? timer;
   bool isRunning = false;
+  bool finished = false;
 
   @override
   void initState() {
     super.initState();
-    state = widget.state;
+    state = widget.state.copy();
   }
 
   @override
   void dispose() {
     timer?.cancel();
     super.dispose();
-  }
-
-  void startTimer() {
-    timer = Timer.periodic(Duration(milliseconds: 500), (timer) => tick());
-    setState(() {
-      isRunning = true;
-    });
-  }
-
-  void stopTimer() {
-    timer?.cancel();
-    setState(() {
-      isRunning = false;
-    });
   }
 
   void handlePauseButton() {
@@ -61,10 +48,39 @@ class _AnimationScreenState extends State<AnimationScreen> {
     }
   }
 
-  void tick() {
-    if (state.status == Status.search) {
-      widget.alg.searchStep(state);
+  void startTimer() {
+    const freq = Duration(milliseconds: 45);
+    if (!finished) {
+      setState(() {
+        timer = Timer.periodic(freq, (_) => tick());
+        isRunning = true;
+      });
     }
+  }
+
+  void stopTimer() {
+    setState(() {
+      timer?.cancel();
+      isRunning = false;
+    });
+  }
+
+  void tick() {
+    setState(() {
+      if (state.status == Status.search) {
+        widget.alg.searchStep(state);
+      } else {
+        stopTimer();
+        finished = true;
+      }
+    });
+  }
+
+  void reset() {
+    setState(() {
+      state = widget.state.copy();
+      finished = false;
+    });
   }
 
   @override
@@ -75,9 +91,30 @@ class _AnimationScreenState extends State<AnimationScreen> {
       body: Stack(
         children: [
           NodeGrid(state.start, state.target, state.grid),
-          ElevatedButton(
-            onPressed: handlePauseButton,
-            child: isRunning ? Icon(Icons.pause) : Icon(Icons.play_arrow)
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: Row(
+              children: [
+                FloatingActionButton(
+                  onPressed: isRunning ? null : reset,
+                  backgroundColor: isRunning ? Colors.grey : Colors.orange,
+                  child: const Icon(Icons.restore),
+                ),
+                const SizedBox(width: 16),
+                FloatingActionButton(
+                  onPressed: isRunning || finished ? null : tick,
+                  backgroundColor: isRunning || finished ? Colors.grey : Colors.blue,
+                  child: const Icon(Icons.skip_next),
+                ),
+                const SizedBox(width: 16),
+                FloatingActionButton(
+                  onPressed: finished ? null : (isRunning ? stopTimer : startTimer),
+                  backgroundColor: finished ? Colors.grey : Colors.red,
+                  child: Icon(isRunning ? Icons.pause : Icons.play_arrow),
+                ),
+              ],
+            ),
           ),
         ],
       ),

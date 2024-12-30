@@ -259,11 +259,10 @@ packages:
   gridfind:
     dependency: "direct main"
     description:
-      name: gridfind
-      sha256: "2bc058c63fe4407dbc9154b9bab1a7ddbf61f2b122a6923c77a481260bd51194"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0-alpha"
+      path: "../../dart/gridfind"
+      relative: true
+    source: path
+    version: "0.1.3-alpha"
   http_multi_server:
     dependency: transitive
     description:

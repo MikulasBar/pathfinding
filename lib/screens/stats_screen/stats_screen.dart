@@ -62,8 +62,8 @@ class _StatsScreenState extends State<StatsScreen> {
     final start = widget.start;
     final target = widget.target;
     
-    return switch(index) {
-      0 => (BFSState.init(start, target, cloneGrid(grid)), BFS(), 'BFS'),
+    return switch(index) { // TODO: add option for diagonals
+      0 => (BFSState.init(start, target, cloneGrid(grid), false), BFS(), 'BFS'),
       _ => throw Exception(),
     };
   }
@@ -115,6 +115,14 @@ class _StatsScreenState extends State<StatsScreen> {
             ],
           );
         },
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.router.popUntilRoot();
+        },
+        backgroundColor: Colors.red,
+        child: const Icon(Icons.arrow_back),
       ),
     );
   }

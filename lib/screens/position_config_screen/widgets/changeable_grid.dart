@@ -17,7 +17,7 @@ class ChangeableGrid extends StatelessWidget {
   List<Widget> buildBlocks() {
     List<Widget> blocks = [];
     for (int i = 0; i < nodes.length; i++) {
-      for (int j = 0; j < nodes[i].length; j++) {
+      for (int j = 0; j < nodes[0].length; j++) {
         blocks.add(GestureDetector(
           onTap: () => onNodeClick(Point(i, j)),
           child: Container(

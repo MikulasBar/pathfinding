@@ -19,15 +19,20 @@ class NodeGrid extends StatelessWidget {
   );
 
   List<List<dn.Node>> getDisplayNodes() {
-    return grid.map((l) => l.map((x) => nodeToDisplayNode(x)).toList())
+    var nodes = grid.map((l) => l.map((x) => nodeToDisplayNode(x)).toList())
       .toList();
+
+    start.set(nodes, dn.Node.start);
+    target.set(nodes, dn.Node.target);
+
+    return nodes;
   }
 
   List<Widget> buildBlocks() {
     final nodes = getDisplayNodes();
     List<Widget> blocks = [];
     for (int i = 0; i < nodes.length; i++) {
-      for (int j = 0; j < nodes[i].length; j++) {
+      for (int j = 0; j < nodes[0].length; j++) {
         blocks.add(
           Container(
             width: nodeSize,
@@ -55,15 +60,12 @@ class NodeGrid extends StatelessWidget {
             child: SizedBox(
               width: gridWidth,
               height: gridHeight,
-              child: Listener(
-                onPointerSignal: (event) {},
-                child: GridView.count(
-                  physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: grid.length,
-                  mainAxisSpacing: 2.0,
-                  crossAxisSpacing: 2.0,
-                  children: buildBlocks(),
-                ),
+              child: GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: grid.length,
+                mainAxisSpacing: 2.0,
+                crossAxisSpacing: 2.0,
+                children: buildBlocks(),
               ),
             ),
           )

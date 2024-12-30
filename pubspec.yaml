@@ -10,7 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   auto_route: ^9.2.2
-  gridfind: ^0.1.0-alpha
+  gridfind:
+    path: ../../dart/gridfind
 
 dev_dependencies:
   flutter_test:
