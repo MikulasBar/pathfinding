@@ -8,16 +8,18 @@ import 'package:auto_route/auto_route.dart';
 
 @RoutePage()
 class StatsScreen extends StatefulWidget {
+  final Point start;
+  final Point target;
+  final List<List<dn.Node>> grid;
+  final bool allowDiagonals;
+
   const StatsScreen({
     super.key,
     required this.start,
     required this.target,
     required this.grid,
+    required this.allowDiagonals,
   });
-
-  final Point start;
-  final Point target;
-  final List<List<dn.Node>> grid;
 
   @override
   State<StatsScreen> createState() => _StatsScreenState();
@@ -61,9 +63,10 @@ class _StatsScreenState extends State<StatsScreen> {
   (PathFindingState, PathFindingStrategy, String) initOnlyState(int index) {
     final start = widget.start;
     final target = widget.target;
+    final diag = widget.allowDiagonals;
     
-    return switch(index) { // TODO: add option for diagonals
-      0 => (BFSState.init(start, target, cloneGrid(grid), false), BFS(), 'BFS'),
+    return switch(index) {
+      0 => (BFSState.init(start, target, cloneGrid(grid), diag), BFS(), 'BFS'),
       _ => throw Exception(),
     };
   }
@@ -82,9 +85,7 @@ class _StatsScreenState extends State<StatsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red,
-      ),
+      appBar: AppBar(backgroundColor: Colors.red),
       body: FutureBuilder(
         future: tasks,
         builder: (context, snapshot) {
@@ -106,10 +107,10 @@ class _StatsScreenState extends State<StatsScreen> {
                 itemCount: count,
                 shrinkWrap: true,
                 itemBuilder: (context, i) {
-                  final res = results[i];
-                  final (state, alg, name) = initOnlyState(i);
+                  final (path, dur, name) = results[i];
+                  final (state, alg, _) = initOnlyState(i);
                   final cb = prepareCallback(context, state, alg, name);
-                  return TaskStats(results[i].$1?.length, res.$2, name, cb);
+                  return TaskStats(path?.length, dur, name, cb);
                 }
               )
             ],
@@ -122,7 +123,7 @@ class _StatsScreenState extends State<StatsScreen> {
           context.router.popUntilRoot();
         },
         backgroundColor: Colors.red,
-        child: const Icon(Icons.arrow_back),
+        child: const Icon(Icons.home),
       ),
     );
   }
@@ -152,4 +153,23 @@ List<List<Node>> setupGrid(List<List<dn.Node>> grid) {
 
 List<List<Node>> cloneGrid(List<List<Node>> grid) {
   return grid.map((row) => List<Node>.from(row)).toList();
+}
+
+List<List<Node>> reverseCoords(List<List<Node>> grid) {
+  int numRows = grid.length;
+  int numCols = grid[0].length;
+
+  List<List<Node>> reversedGrid = List.generate(numRows, (i) => List<Node>.filled(numCols, Node.idle));
+
+  for (int i = 0; i < numRows; i++) {
+    for (int j = 0; j < numCols; j++) {
+      reversedGrid[i][j] = grid[numRows - 1 - i][numCols - 1 - j];
+    }
+  }
+
+  return reversedGrid;
+}
+
+Point revPoint(Point point) {
+  return Point(point.y, point.x);
 }

@@ -123,6 +123,7 @@ class PositionConfigRoute extends _i6.PageRouteInfo<PositionConfigRouteArgs> {
     _i8.Key? key,
     required int width,
     required int height,
+    required bool allowDiagonals,
     List<_i6.PageRouteInfo>? children,
   }) : super(
           PositionConfigRoute.name,
@@ -130,6 +131,7 @@ class PositionConfigRoute extends _i6.PageRouteInfo<PositionConfigRouteArgs> {
             key: key,
             width: width,
             height: height,
+            allowDiagonals: allowDiagonals,
           ),
           initialChildren: children,
         );
@@ -144,6 +146,7 @@ class PositionConfigRoute extends _i6.PageRouteInfo<PositionConfigRouteArgs> {
         key: args.key,
         width: args.width,
         height: args.height,
+        allowDiagonals: args.allowDiagonals,
       );
     },
   );
@@ -154,6 +157,7 @@ class PositionConfigRouteArgs {
     this.key,
     required this.width,
     required this.height,
+    required this.allowDiagonals,
   });
 
   final _i8.Key? key;
@@ -162,9 +166,11 @@ class PositionConfigRouteArgs {
 
   final int height;
 
+  final bool allowDiagonals;
+
   @override
   String toString() {
-    return 'PositionConfigRouteArgs{key: $key, width: $width, height: $height}';
+    return 'PositionConfigRouteArgs{key: $key, width: $width, height: $height, allowDiagonals: $allowDiagonals}';
   }
 }
 
@@ -176,6 +182,7 @@ class StatsRoute extends _i6.PageRouteInfo<StatsRouteArgs> {
     required _i7.Point start,
     required _i7.Point target,
     required List<List<_i9.Node>> grid,
+    required bool allowDiagonals,
     List<_i6.PageRouteInfo>? children,
   }) : super(
           StatsRoute.name,
@@ -184,6 +191,7 @@ class StatsRoute extends _i6.PageRouteInfo<StatsRouteArgs> {
             start: start,
             target: target,
             grid: grid,
+            allowDiagonals: allowDiagonals,
           ),
           initialChildren: children,
         );
@@ -199,6 +207,7 @@ class StatsRoute extends _i6.PageRouteInfo<StatsRouteArgs> {
         start: args.start,
         target: args.target,
         grid: args.grid,
+        allowDiagonals: args.allowDiagonals,
       );
     },
   );
@@ -210,6 +219,7 @@ class StatsRouteArgs {
     required this.start,
     required this.target,
     required this.grid,
+    required this.allowDiagonals,
   });
 
   final _i8.Key? key;
@@ -220,8 +230,10 @@ class StatsRouteArgs {
 
   final List<List<_i9.Node>> grid;
 
+  final bool allowDiagonals;
+
   @override
   String toString() {
-    return 'StatsRouteArgs{key: $key, start: $start, target: $target, grid: $grid}';
+    return 'StatsRouteArgs{key: $key, start: $start, target: $target, grid: $grid, allowDiagonals: $allowDiagonals}';
   }
 }

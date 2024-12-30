@@ -11,7 +11,7 @@ class AnimationScreen extends StatefulWidget {
   final PathFindingStrategy alg;
   final String name;
 
-  const AnimationScreen( // TODO: fix the build_runner
+  const AnimationScreen(
     this.state,
     this.alg,
     this.name,

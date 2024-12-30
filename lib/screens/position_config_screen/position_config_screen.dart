@@ -18,11 +18,13 @@ enum PickingStage {
 class PositionConfigScreen extends StatefulWidget {
   final int width;
   final int height;
+  final bool allowDiagonals;
 
   const PositionConfigScreen({
     super.key,
     required this.width,
     required this.height,
+    required this.allowDiagonals,
   });
 
   @override
@@ -124,7 +126,13 @@ class _PositionConfigScreenState extends State<PositionConfigScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: canProceed() ? Colors.red : Colors.grey[100]!,
         foregroundColor: canProceed() ? Colors.black : Colors.grey,
-        onPressed: () => canProceed() ? context.router.push(StatsRoute(start: start!, target: target!, grid: nodes)) : null,
+        onPressed: () => canProceed() ? context.router.push(
+          StatsRoute(
+            start: start!,
+            target: target!,
+            grid: nodes,
+            allowDiagonals: widget.allowDiagonals
+          )) : null,
         child: const Icon(Icons.check),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

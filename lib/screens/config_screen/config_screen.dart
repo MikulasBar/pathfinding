@@ -15,15 +15,9 @@ class _ConfigScreenState extends State<ConfigScreen> {
   static const minSize = 2.0;
   static const maxSize = 20.0;
   
-  late int width;
-  late int height;
-
-  @override
-  void initState() {
-    super.initState();
-    width = minSize.toInt();
-    height = minSize.toInt();
-  }
+  late int width = minSize.toInt();
+  late int height = minSize.toInt();
+  bool allowDiagonals = false;
 
   void changeWidth(double value) {
     setState(() {
@@ -34,6 +28,12 @@ class _ConfigScreenState extends State<ConfigScreen> {
   void changeHeight(double value) {
     setState(() {
       height = value.toInt();
+    });
+  }
+
+  void changeDiagonals(bool value) {
+    setState(() {
+      allowDiagonals = value;
     });
   }
 
@@ -53,13 +53,16 @@ class _ConfigScreenState extends State<ConfigScreen> {
               SizeSlider(value: width.toDouble(), onChanged: changeWidth, minSize: minSize, maxSize: maxSize),
               Text('Height: $height', style: const TextStyle(fontSize: 18),),
               SizeSlider(value: height.toDouble(), onChanged: changeHeight, minSize: minSize, maxSize: maxSize),
+              const SizedBox(height: 10.0),
+              const Text('Allow diagonals', style: TextStyle(fontSize: 18)),
+              Switch(value: allowDiagonals, activeColor: Colors.red, onChanged: changeDiagonals)
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.red,
-        onPressed: () => context.router.push(PositionConfigRoute(width: width, height: height)),
+        backgroundColor: Colors.red, // There happens weird wrong displaying of the animation if this is not reversed 
+        onPressed: () => context.router.push(PositionConfigRoute(width: height, height: width, allowDiagonals: allowDiagonals)),
         child: const Icon(Icons.check),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,

@@ -34,8 +34,8 @@ class ChangeableGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double gridWidth = nodes.length * nodeSize;
-    final double gridHeight = nodes[0].length * nodeSize;
+    final double gridWidth = nodes[0].length * nodeSize;
+    final double gridHeight = nodes.length * nodeSize;
 
 
     return LayoutBuilder(
@@ -51,7 +51,7 @@ class ChangeableGrid extends StatelessWidget {
                 onPointerSignal: (event) {},
                 child: GridView.count(
                   physics: const NeverScrollableScrollPhysics(),
-                  crossAxisCount: nodes.length,
+                  crossAxisCount: nodes[0].length,
                   mainAxisSpacing: 2.0,
                   crossAxisSpacing: 2.0,
                   children: buildBlocks(),

@@ -48,8 +48,8 @@ class NodeGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double gridWidth = grid.length * nodeSize;
-    final double gridHeight = grid[0].length * nodeSize;
+    final double gridWidth = grid[0].length * nodeSize;
+    final double gridHeight = grid.length * nodeSize;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -62,7 +62,7 @@ class NodeGrid extends StatelessWidget {
               height: gridHeight,
               child: GridView.count(
                 physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: grid.length,
+                crossAxisCount: grid[0].length,
                 mainAxisSpacing: 2.0,
                 crossAxisSpacing: 2.0,
                 children: buildBlocks(),
